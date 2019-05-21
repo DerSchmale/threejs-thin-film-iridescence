@@ -1,6 +1,9 @@
 # threejs-thin-film-iridescence
 A thin film iridescence approach for ThreeJS. The approach used is loosely based on [Belcour and Barla 2017](https://blogs.unity3d.com/2017/05/09/a-practical-extension-to-microfacet-theory-for-the-modeling-of-varying-iridescence/). The code setup and documentation could be a lot better, but since there's been an interest in this code, I decided to throw it online as is so people can already use it legally as open source (MIT).
 
+# Example
+See the example file [in action](https://derschmale.github.io/threejs-thin-film-iridescence/).
+
 ## Usage
 Just grab the `js/ThinFilmFresnelMap.js` file and add it somewhere in your three.js project. This is a class providing a lookup texture containing the reflection colour replacing a normal PBR setup's fresnel colour. Metallic reflections are currently not supported, but a similar effect can be achieved by boosting the reflection values.
 
