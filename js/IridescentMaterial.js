@@ -41,24 +41,18 @@ function IridescentMaterial(irradianceProbe, radianceProbe, iridescenceLookUp) {
 
       vertexShader:
         "varying vec3 vWorldPosition;\n" +
-        "varying vec3 vViewPosition;\n" +
         "varying vec3 vWorldNormal;\n" +
-        "varying vec2 vUV;\n" +
         "\n" +
         "void main() {\n" +
         "    vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;\n" +
         "    // normalMatrix is view space... we need world space which is okay here since we're using uniform scaling only\n" +
         "    vec4 viewPos = modelViewMatrix * vec4(position,1.0);\n" +
         "    vWorldNormal = mat3(modelMatrix) * normalize(normal);\n" +
-        "    vViewPosition = viewPos.xyz;\n" +
-        "    vUV = uv;\n" +
         "    gl_Position = projectionMatrix * viewPos;\n" +
         "}",
       fragmentShader:
         "varying vec3 vWorldPosition;\n" +
-        "varying vec3 vViewPosition;\n" +
         "varying vec3 vWorldNormal;\n" +
-        "varying vec2 vUV;\n" +
         "\n" +
         "uniform vec3 color;\n" +
         "uniform float boost;\n" +
@@ -66,23 +60,9 @@ function IridescentMaterial(irradianceProbe, radianceProbe, iridescenceLookUp) {
         "uniform samplerCube irradianceProbe;\n" +
         "uniform sampler2D iridescenceLookUp;\n" +
         "\n" +
-        "vec3 perturbNormal2Arb(vec3 position, vec3 worldNormal, vec3 normalSample)\n" +
-        "{\n" +
-        "    vec3 q0 = dFdx( position.xyz );\n" +
-        "    vec3 q1 = dFdy( position.xyz );\n" +
-        "    vec2 st0 = dFdx( vUV.st );\n" +
-        "    vec2 st1 = dFdy( vUV.st );\n" +
-        "    vec3 S = normalize( q0 * st1.t - q1 * st0.t );\n" +
-        "    vec3 T = normalize( -q0 * st1.s + q1 * st0.s );\n" +
-        "    vec3 N = normalize( worldNormal );\n" +
-        "    mat3 tsn = mat3( S, T, N );\n" +
-        "    return normalize( tsn * normalSample );\n" +
-        "}\n" +
-        "\n" +
         "void main() {\n" +
         "\n" +
         "    vec3 viewWorldDir = normalize(vWorldPosition - cameraPosition);\n" +
-        "    vec3 viewDir = normalize(vViewPosition);\n" +
         "\n" +
         "    vec3 normal = normalize(vWorldNormal); //getNormal(normalSample.xy);\n" +
         "    vec3 viewNormal = mat3(viewMatrix) * normal;\n" +
