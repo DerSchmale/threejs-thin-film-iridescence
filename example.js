@@ -91,7 +91,9 @@ function loadCubeMap(path) {
 function initGui() {
   var gui = new dat.GUI();
   gui.remember(iridescenceLookUp);
+  gui.remember(iridescenceMaterial);
   gui.add(iridescenceLookUp, "filmThickness").min(100).max(1000);
   gui.add(iridescenceLookUp, "refractiveIndexFilm").min(1).max(5);
   gui.add(iridescenceLookUp, "refractiveIndexBase").min(1).max(5);
+  gui.add(iridescenceMaterial, "boost").min(1).max(50);
 }

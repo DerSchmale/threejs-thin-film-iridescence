@@ -1,7 +1,13 @@
 /**
- * A material used for skyboxes.
- * @param texture A cube map texture.
+ * @classdesc
+ * A simple material used for skyboxes with cube maps.
+ *
+ * @property envMap The environment cube map to use as the sky.
+ *
  * @constructor
+ * @param texture A cube map texture.
+ *
+ * @author David Lenaerts <http://www.derschmale.com>
  */
 function SkyMaterial(texture) {
   var materialUniforms =

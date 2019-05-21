@@ -1,8 +1,19 @@
 /**
+ * @classdesc
  * A minimal example to show how the texture can be used.
+ *
+ * @property irradianceProbe A cube map containing diffuse lighting information.
+ * @property radianceProbe A cube map containing specular lighting information.
+ * @property iridescenceLookUp An instance of ThinFilmFresnelMap.
+ * @property color The base color of the material.
+ * @property boost A value to magically boost the iridescent reflections.
+ *
+ * @constructor
  * @param irradianceProbe A cube map containing diffuse lighting information.
  * @param radianceProbe A cube map containing specular lighting information.
- * @patam iridescenceMap An instance of ThinFilmFresnelMap.
+ * @param iridescenceLookUp An instance of ThinFilmFresnelMap.
+ *
+ * @author David Lenaerts <http://www.derschmale.com>
  */
 function IridescentMaterial(irradianceProbe, radianceProbe, iridescenceLookUp) {
   var materialUniforms =
