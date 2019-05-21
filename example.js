@@ -65,9 +65,6 @@ function initScene() {
 
   var torusGeom = new THREE.TorusKnotGeometry(10, 3, 100, 16);
   iridescenceMaterial = new IridescentMaterial(irradiance, radiance, iridescenceLookUp);
-  // metallicness in the thin film filter is currently not supported, so make the effect clear
-  // with a boost
-  iridescenceMaterial.boost = 20.0;
   torus = new THREE.Mesh(torusGeom, iridescenceMaterial);
   scene.add(torus);
 
