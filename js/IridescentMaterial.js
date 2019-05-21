@@ -56,7 +56,7 @@ function IridescentMaterial(irradianceProbe, radianceProbe, iridescenceLookUp) {
         "\n" +
         "uniform vec3 color;\n" +
         "uniform float boost;\n" +
-        "uniform samplerCube specularProbe;\n" +
+        "uniform samplerCube radianceProbe;\n" +
         "uniform samplerCube irradianceProbe;\n" +
         "uniform sampler2D iridescenceLookUp;\n" +
         "\n" +
@@ -79,7 +79,7 @@ function IridescentMaterial(irradianceProbe, radianceProbe, iridescenceLookUp) {
         "    vec3 airy = texture2D(iridescenceLookUp, vec2(NdotV * .99, 0.0)).xyz;\n" +
         "    airy *= airy;\n" +
         "\n" +
-        "    vec4 reflectionSample = textureCube(specularProbe, reflectedView);\n" +
+        "    vec4 reflectionSample = textureCube(radianceProbe, reflectedView);\n" +
         "\n" +
         "    specularLight = reflectionSample.xyz * reflectionSample.xyz * airy * boost;\n" +
         "\n" +
