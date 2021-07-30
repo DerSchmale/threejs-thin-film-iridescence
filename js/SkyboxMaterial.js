@@ -9,49 +9,45 @@
  *
  * @author David Lenaerts <http://www.derschmale.com>
  */
-function SkyMaterial(texture) {
-  var materialUniforms =
-    {
+class SkyMaterial extends THREE.ShaderMaterial {
+
+  constructor(texture) {
+
+    const materialUniforms = {
       envMap: {
         value: texture
       }
     };
 
-  THREE.ShaderMaterial.call(this,
-    {
+    super({
       uniforms: materialUniforms,
 
-      vertexShader:
-        "varying vec3 worldViewDir;\n" +
-        "\n" +
-        "void main() {\n" +
-        "    vec3 worldPosition = (modelMatrix * vec4(position, 1.0)).xyz;\n" +
-        "    worldViewDir = worldPosition - cameraPosition;\n" +
-        "    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n" +
-        "}",
-      fragmentShader:
-        "varying vec3 worldViewDir;\n" +
-        "\n" +
-        "uniform samplerCube envMap;\n" +
-        "\n" +
-        "void main()\n" +
-        "{\n" +
-        "    vec3 elementDir = normalize(worldViewDir);\n" +
-        "    gl_FragColor = textureCube(envMap, elementDir);\n" +
-        "}\n"
-    }
-  );
+      vertexShader: `
+        varying vec3 worldViewDir;
+        
+        void main() {
+            vec3 worldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+            worldViewDir = worldPosition - cameraPosition;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }`,
+      fragmentShader: `
+        varying vec3 worldViewDir;
+        uniform samplerCube envMap;
+        
+        void main() {
+            vec3 elementDir = normalize(worldViewDir);
+            gl_FragColor = textureCube(envMap, elementDir);
+        }`
+    });
 
-  this.side = THREE.BackSide;
-};
-
-SkyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype, {
-  envMap: {
-    get: function() {
-      return this.uniforms.envMap.value;
-    },
-    set: function(value) {
-      this.uniforms.envMap.value = value;
-    }
+    this.side = THREE.BackSide;
   }
-});
+
+  get envMap() {
+    return this.uniforms.envMap.value;
+  }
+
+  set envMap(value) {
+    this.uniforms.envMap.value = value;
+  }
+};
