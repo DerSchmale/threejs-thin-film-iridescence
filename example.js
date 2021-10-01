@@ -56,7 +56,7 @@ function render() {
 
 function initScene() {
   var size = 1000;
-  var skyGeom = new THREE.CubeGeometry(size, size, size);
+  var skyGeom = new THREE.BoxGeometry(size, size, size);
   var radiance = loadCubeMap("assets/skybox/radiance");
   var irradiance = loadCubeMap("assets/skybox/irradiance");
   var skyboxMaterial = new SkyMaterial(radiance);
