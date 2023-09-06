@@ -41,16 +41,39 @@ class IridescentMaterial extends THREE.ShaderMaterial {
       uniforms: materialUniforms,
 
       vertexShader: `
+        #include <morphtarget_pars_vertex>
+
         varying vec3 vWorldPosition;
         varying vec3 vWorldNormal;
-        
+
+        attribute vec3 morphTarget0;
+        attribute vec3 morphTarget1;
+        attribute vec3 morphTarget2;
+        attribute vec3 morphTarget3;
+
         void main() {
-            vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+            #include <begin_vertex>
+            #include <morphtarget_vertex>
+
+            #ifdef USE_MORPHTARGETS
+
+            // morphTargetBaseInfluence is set based on BufferGeometry.morphTargetsRelative value:
+            // When morphTargetsRelative is false, this is set to 1 - sum(influences); this results in position = sum((target - base) * influence)
+            // When morphTargetsRelative is true, this is set to 1; as a result, all morph targets are simply added to the base after weighting
+            transformed *= morphTargetBaseInfluence;
+            transformed += morphTarget0 * morphTargetInfluences[0];
+            transformed += morphTarget1 * morphTargetInfluences[1];
+            transformed += morphTarget2 * morphTargetInfluences[2];
+            transformed += morphTarget3 * morphTargetInfluences[3];
+
+            #endif
+
+            vWorldPosition = (modelMatrix * vec4(transformed, 1.0)).xyz;
             // normalMatrix is view space... we need world space which is okay here since we're using uniform scaling only
-            vec4 viewPos = modelViewMatrix * vec4(position,1.0);
+            vec4 viewPos = modelViewMatrix * vec4(transformed, 1.0);
             vWorldNormal = mat3(modelMatrix) * normalize(normal);
             gl_Position = projectionMatrix * viewPos;
-        }`,
+      }`,
       fragmentShader: `
         varying vec3 vWorldPosition;
         varying vec3 vWorldNormal;
